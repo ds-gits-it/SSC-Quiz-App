@@ -10,6 +10,6 @@ export default StyleSheet.create({
     alignSelf: 'flex-end',
     maxWidth: '49%',
     flexShrink: 1,
-    textAlign: 'right',
+    textAlign: 'left',
   },
 });

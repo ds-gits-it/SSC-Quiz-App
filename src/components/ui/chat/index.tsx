@@ -8,8 +8,7 @@ export default function ChatUI() {
     console.log('Reset button pressed');
   };
   return (
-    <View>
-      {/* <Text>Chat UI</Text> */}
+    <View style={{ flex: 1 }}>
       <TopBar eventHandler={eventHandler} />
       <ChatHistory />
       <Input />

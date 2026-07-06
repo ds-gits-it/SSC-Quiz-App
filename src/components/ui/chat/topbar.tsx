@@ -4,7 +4,7 @@ import { Pressable, Text, View } from 'react-native';
 export default function TopBar({ eventHandler }: { eventHandler: () => void }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Chat UI</Text>
+      <Text style={styles.title}>Quiz?</Text>
       <View style={styles.spacer} />
       <Pressable
         style={styles.resetButton}

@@ -7,7 +7,7 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      <StatusBar />
       <Stack screenOptions={{ headerShown: false }} />
     </SafeAreaView>
   );

@@ -9,4 +9,8 @@ export default StyleSheet.create({
     flexDirection: 'column',
     gap: 4,
   },
+  chatContainer: {
+    flex: 1,
+    flexDirection: 'column',
+  },
 });
