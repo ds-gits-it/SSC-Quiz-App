@@ -1,3 +1,4 @@
+import { useBot } from '@/hooks/useBot';
 import styles from '@/style/chat/input';
 import { useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
@@ -5,6 +6,7 @@ export default function Input({ setChat }) {
   const [newMessage, setNewMessage] = useState('');
   const handleUpdate = () => {
     setChat((oldChat) => [...oldChat, { type: 'user', text: newMessage }]);
+    useBot(newMessage);
     setNewMessage('');
   };
 

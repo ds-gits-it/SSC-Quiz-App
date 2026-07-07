@@ -1,6 +1,7 @@
 import ChatHistory from '@/components/ui/chat/chat-history';
 import Input from '@/components/ui/chat/input';
 import TopBar from '@/components/ui/chat/topbar';
+import { useBot } from '@/hooks/useBot';
 import Store from '@/store';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
