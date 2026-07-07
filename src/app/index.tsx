@@ -1,8 +1,9 @@
-import ChatUI from '@/components/ui/chat';
+import ChatHistory from '@/components/ui/chat/chat-history';
+import Input from '@/components/ui/chat/input';
+import TopBar from '@/components/ui/chat/topbar';
 import Store from '@/store';
 import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, View } from 'react-native';
 export default function HomeScreen() {
   useEffect(() => {
     Store.setItem(
@@ -16,10 +17,19 @@ export default function HomeScreen() {
       Store.removeItem('chat-history');
     };
   }, []);
+  const eventHandler = () => {
+    console.log('Reset button pressed');
+    const run = async () => {
+      await Store.setItem('chat-history', JSON.stringify([]));
+    };
+    run();
+  };
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ChatUI />
-    </SafeAreaView>
+    <View style={{ flex: 1 }}>
+      <TopBar eventHandler={eventHandler} />
+      <ChatHistory />
+      <Input />
+    </View>
   );
 }
 
