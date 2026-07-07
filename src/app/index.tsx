@@ -2,9 +2,10 @@ import ChatHistory from '@/components/ui/chat/chat-history';
 import Input from '@/components/ui/chat/input';
 import TopBar from '@/components/ui/chat/topbar';
 import Store from '@/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 export default function HomeScreen() {
+  const [chat, setChat] = useState([]);
   useEffect(() => {
     Store.setItem(
       'chat-history',
@@ -17,6 +18,17 @@ export default function HomeScreen() {
       Store.removeItem('chat-history');
     };
   }, []);
+
+  useEffect(() => {
+    const run = async () => {
+      const rawChatHistory: string | null = await Store.getItem('chat-history');
+      const chatHistory = JSON.parse(rawChatHistory) || [];
+      setChat(chatHistory);
+    };
+    run();
+    return () => setChat([]);
+  }, []);
+
   const eventHandler = () => {
     console.log('Reset button pressed');
     const run = async () => {
@@ -27,8 +39,8 @@ export default function HomeScreen() {
   return (
     <View style={{ flex: 1 }}>
       <TopBar eventHandler={eventHandler} />
-      <ChatHistory />
-      <Input />
+      <ChatHistory chat={chat} />
+      <Input setChat={setChat} />
     </View>
   );
 }
