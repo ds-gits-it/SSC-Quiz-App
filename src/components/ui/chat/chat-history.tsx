@@ -7,10 +7,13 @@ import UserChatBubble from './bubbles/user';
 
 export default function ChatHistory() {
   const [chat, setChat] = useState([]);
-  useEffect(async () => {
-    const rawChatHistory = await Store.getItem('chat-history');
-    const chatHistory = JSON.parse(rawChatHistory) || [];
-    setChat(chatHistory);
+  useEffect(() => {
+    const run = async () => {
+      const rawChatHistory: string | null = await Store.getItem('chat-history');
+      const chatHistory = JSON.parse(rawChatHistory) || [];
+      setChat(chatHistory);
+    };
+    run();
     return () => setChat([]);
   }, []);
   console.log(chat);

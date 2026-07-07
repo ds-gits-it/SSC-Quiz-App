@@ -12,6 +12,9 @@ export default function HomeScreen() {
         { type: 'user', text: 'Hello Bot!' },
       ]),
     );
+    return () => {
+      Store.removeItem('chat-history');
+    };
   }, []);
   return (
     <SafeAreaView style={styles.safeArea}>
