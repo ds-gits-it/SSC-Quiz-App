@@ -1,14 +1,19 @@
+import Store from '@/store';
 import styles from '@/style/chat/chat-history';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import BotChatBubble from './bubbles/bot';
 import UserChatBubble from './bubbles/user';
 
-const chat = [
-  { type: 'bot', text: 'Hello, how can I help you today?' },
-  { type: 'user', text: 'I have a question about the quiz.' },
-];
-
 export default function ChatHistory() {
+  const [chat, setChat] = useState([]);
+  useEffect(async () => {
+    const rawChatHistory = await Store.getItem('chat-history');
+    const chatHistory = JSON.parse(rawChatHistory) || [];
+    setChat(chatHistory);
+    return () => setChat([]);
+  }, []);
+  console.log(chat);
   return (
     <View style={styles.container}>
       <View id="chat-container" style={styles.chatContainer}>

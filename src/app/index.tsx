@@ -1,7 +1,18 @@
 import ChatUI from '@/components/ui/chat';
+import Store from '@/store';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 export default function HomeScreen() {
+  useEffect(() => {
+    Store.setItem(
+      'chat-history',
+      JSON.stringify([
+        { type: 'bot', text: 'Hello User!' },
+        { type: 'user', text: 'Hello Bot!' },
+      ]),
+    );
+  }, []);
   return (
     <SafeAreaView style={styles.safeArea}>
       <ChatUI />
