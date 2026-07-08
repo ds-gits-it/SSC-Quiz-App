@@ -1,6 +1,6 @@
 # Welcome to your SSC Quiz App 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app). This project uses file based routing.
 
 ## Get started
 
