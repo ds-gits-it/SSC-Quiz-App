@@ -10,16 +10,16 @@ import {
 } from 'react-native';
 export default function Input({ setChat }) {
   const [newMessage, setNewMessage] = useState('');
-  const { generateBotResponse, loading } = useBot();
-  const [generating, setGenerating] = useState(false);
+  const { generateBotResponse, loading, downloadProgress, isGenerating } =
+    useBot();
   const handleUpdate = async () => {
     if (!newMessage.trim()) return;
     setChat((oldChat) => [...oldChat, { type: 'user', text: newMessage }]);
-    setGenerating(true);
     try {
-      await generateBotResponse(newMessage);
-    } finally {
-      setGenerating(false);
+      const response = await generateBotResponse(newMessage);
+      setChat((oldChat) => [...oldChat, { type: 'bot', text: response }]);
+    } catch {
+      console.log('Error generating bot response');
     }
     setNewMessage('');
   };
@@ -38,10 +38,10 @@ export default function Input({ setChat }) {
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <ActivityIndicator size="small" />
             <Text style={{ marginLeft: 6, color: '#4B5563' }}>
-              Loading model...
+              Loading model... {Math.round((downloadProgress || 0) * 100)}%
             </Text>
           </View>
-        ) : generating ? (
+        ) : isGenerating ? (
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <ActivityIndicator size="small" />
             <Text style={{ marginLeft: 6, color: '#4B5563' }}>
@@ -55,7 +55,7 @@ export default function Input({ setChat }) {
         style={styles.button}
         accessibilityRole="button"
         onPress={handleUpdate}
-        disabled={loading || generating}
+        disabled={loading || isGenerating}
       >
         <View style={styles.arrow} />
       </Pressable>
