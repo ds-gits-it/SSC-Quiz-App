@@ -1,13 +1,26 @@
 import { useBot } from '@/hooks/useBot';
 import styles from '@/style/chat/input';
 import { useState } from 'react';
-import { Pressable, TextInput, View } from 'react-native';
-export default async function Input({ setChat }) {
+import {
+  ActivityIndicator,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+export default function Input({ setChat }) {
   const [newMessage, setNewMessage] = useState('');
-  const generateBotResponse = useBot();
+  const { generateBotResponse, loading } = useBot();
+  const [generating, setGenerating] = useState(false);
   const handleUpdate = async () => {
+    if (!newMessage.trim()) return;
     setChat((oldChat) => [...oldChat, { type: 'user', text: newMessage }]);
-    await generateBotResponse(newMessage);
+    setGenerating(true);
+    try {
+      await generateBotResponse(newMessage);
+    } finally {
+      setGenerating(false);
+    }
     setNewMessage('');
   };
 
@@ -20,10 +33,29 @@ export default async function Input({ setChat }) {
         value={newMessage}
         onChangeText={setNewMessage}
       />
+      <View style={{ alignItems: 'center', marginRight: 8 }}>
+        {loading ? (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <ActivityIndicator size="small" />
+            <Text style={{ marginLeft: 6, color: '#4B5563' }}>
+              Loading model...
+            </Text>
+          </View>
+        ) : generating ? (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <ActivityIndicator size="small" />
+            <Text style={{ marginLeft: 6, color: '#4B5563' }}>
+              Generating response...
+            </Text>
+          </View>
+        ) : null}
+      </View>
+
       <Pressable
         style={styles.button}
         accessibilityRole="button"
         onPress={handleUpdate}
+        disabled={loading || generating}
       >
         <View style={styles.arrow} />
       </Pressable>
